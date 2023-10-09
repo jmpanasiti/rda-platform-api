@@ -1,0 +1,11 @@
+-r ./requirements.txt
+
+# Test
+pytest==7.3.0
+
+# Lint
+autopep8==2.0.2
+pre-commit==3.2.2
+
+# FastAPI-TestClient
+httpx==0.24.0
