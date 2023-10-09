@@ -1,0 +1,42 @@
+services:
+    rda-api:
+        build: .
+        container_name: rda-api
+        ports:
+            - "8000:8000"
+        volumes:
+            - ./app/:/src/project/app
+            - ./logs/:/src/project/logs
+        env_file:
+            - .env
+        depends_on:
+            - rda-db
+        networks:
+            - rda-net
+        environment:
+            CONN_DB: "postgresql://root:root@rda-db:5432/rda_db"
+    rda-db:
+        image: postgres:15.2
+        environment:
+            - POSTGRES_DB=rda_db
+            - POSTGRES_PASSWORD=root
+            - POSTGRES_USER=root
+        ports:
+            - "5433:5432"
+        volumes:
+            - "../rda-db/:/var/lib/postgresql/data"
+        networks:
+            - rda-net
+
+    rda-db-test:
+        image: postgres:15.2
+        environment:
+            - POSTGRES_DB=rda_db_test
+            - POSTGRES_PASSWORD=root
+            - POSTGRES_USER=root
+        ports:
+            - "54333:5432"
+        networks:
+            - rda-net
+networks:
+    rda-net:
